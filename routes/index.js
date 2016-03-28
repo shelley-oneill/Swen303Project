@@ -4,13 +4,12 @@ var router = express.Router();
 var cheerio = require('cheerio');
 var basex = require('basex');
 var client = new basex.Session("127.0.0.1", 1984, "admin", "admin");
-client.execute("open movies");
 
 /* GET home page. */
-/*router.get('/', function(req, res, next) {
+router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
-});*/
-
+});
+/*
 router.get("/",function(req,res,next){
     client.execute("xquery for $movie in //movie[position() lt 10] " +
         "return <movie> {$movie/title} {$movie/id} </movie>",
@@ -27,6 +26,7 @@ router.get("/",function(req,res,next){
         }
     );
 });
+*/
 
 
 module.exports = router;
