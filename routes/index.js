@@ -7,7 +7,7 @@ var client = new basex.Session("127.0.0.1", 1984, "admin", "admin");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'The Colenso Project' });
 });
 /*
 router.get("/",function(req,res,next){

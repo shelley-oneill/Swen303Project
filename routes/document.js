@@ -16,37 +16,81 @@ router.get('/', function(req, res, next) {
   client.execute("OPEN Colenso");
   client.execute("XQUERY declare namespace tei='http://www.tei-c.org/ns/1.0';" +
              "doc('Colenso/diary/diary.xml')",
-             function(error, result){if(!error){res.render('document', {body:result.result});}});
-
+             function(error, result){
+                 var $ = cheerio.load(result.result);
+                 var author, title, body, date, authorLink;
+                 $('fileDesc').each(function(i,elem) {
+                     title = $(this).find('title').text();
+                     authorLink = $(this).find('name').attr('key');
+                     author = $(this).find('author').text();
+                     date = $(this).find('date').text();
+                 });
+                 $('sourceDesc').each(function(i,elem){
+                     if(!author){author = $(this).find('author').text();}
+                     if(!date){date = $(this).find('date').text();}
+                 });
+                 $('text').each(function(i, elem){
+                     body = $(this);
+                 });
+                 res.render('document', {title: title,date:date, author: author,authorLink:authorLink, body:body});
+             });
      }
  );
 
 router.get("/newspaperLetters/:id",function(req,res,next) {
     client.execute("OPEN Colenso");
     var id = req.params.id;
-    console.log(id);
     var inputQuery = "declare namespace tei='http://www.tei-c.org/ns/1.0';" +
         "declare variable $id as xs:string+ external;" +
         "doc('Colenso/newspaper_letters/'||$id)";
     var query = client.query(inputQuery);
     query.bind("id", id);
-    query.execute(function(error, result) {
-        if(!error){res.render('document', {body: result.result});}
-    })
-});
+    query.execute(function(error, result){
+        var $ = cheerio.load(result.result);
+        var author, title, body, date, authorLink;
+        $('titleStmt').each(function(i,elem) {
+            title = $(this).find('title').text();
+            authorLink = $(this).find('name').attr('key');
+            author = $(this).find('author').text();
+            date = $(this).find('date').text();
+        });
+        $('sourceDesc').each(function(i,elem){
+            if(!date){date = $(this).find('date').text();}
+        });
+        $('text').each(function(i, elem){
+            body = $(this);
+        });
+        res.render('document', {title: title,date:date, author: author,authorLink:authorLink, body:body});
+    });
+    }
+);
 
 router.get("/privateLetters/:id",function(req,res,next) {
     client.execute("OPEN Colenso");
     var id = req.params.id;
-    console.log(id);
     var inputQuery = "declare namespace tei='http://www.tei-c.org/ns/1.0';" +
         "declare variable $id as xs:string+ external;" +
         "doc('Colenso/private_letters/'||$id)";
     var query = client.query(inputQuery);
     query.bind("id", id);
-    query.execute(function(error, result) {
-        if(!error){res.render('document', {body: result.result});}
-    })
-});
-
+    query.execute(function(error, result){
+        var $ = cheerio.load(result.result);
+        var author, title, body, date, authorLink;
+        $('fileDesc').each(function(i,elem) {
+            title = $(this).find('title').text();
+            authorLink = $(this).find('name').attr('key');
+            author = $(this).find('author').text();
+            date = $(this).find('date').text();
+        });
+        $('sourceDesc').each(function(i,elem){
+            if(!author){author = $(this).find('author').text();}
+            if(!date){date = $(this).find('date').text();}
+        });
+        $('text').each(function(i, elem){
+            body = $(this);
+        });
+        res.render('document', {title: title,date:date, author: author,authorLink:authorLink, body:body});
+    });
+    }
+);
 module.exports = router;
