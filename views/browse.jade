@@ -5,11 +5,15 @@ head
 
 block body
 	+navbar("Colenso Project", "dropdown_menu")
-		+nav_item("/", "active") Home
-		+nav_item("/browse") Browse
-		+nav_item("/search") Search
+		+nav_item("/") Home
+		+nav_item("/browse", "active") Browse
+
 	.container
 		a.btn.btn-default( href="/document/diary") Diary
+		br
+		br
 		a.btn.btn-default( href="/list/newspaperLetters") Newspaper Letters
-		a.btn.btn-default Private Letters
-		a.btn.btn-default Publications
+		br
+		br
+		a.btn.btn-default( href="/list/privateLetters") Private Letters
+

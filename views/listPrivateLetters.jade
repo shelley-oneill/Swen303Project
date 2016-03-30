@@ -1,0 +1,21 @@
+extends ../node_modules/jade-bootstrap/_bootstrap
+
+head
+	title=title
+
+block body
+	+navbar("Colenso Project", "dropdown_menu")
+		+nav_item("/") Home
+		+nav_item("/browse", "active") Browse
+
+	.container
+		ul
+			each val in documents
+				a(href='/document/privateLetters/'+val.path) !{val.title}
+				br
+				| !{val.author}
+				br
+				| !{val.date}
+				br
+				br
+		

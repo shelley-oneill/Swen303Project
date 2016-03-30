@@ -9,7 +9,7 @@ var client = new basex.Session("127.0.0.1", 1984, "admin", "admin");
 router.get('/', function(req, res, next) {
   res.render('browse', { title: 'Browse' });
 });
-/*
+
  router.get("/",function(req,res,next){
  client.execute("xquery for $movie in //movie[position() lt 10] " +
  "return <movie> {$movie/title} {$movie/id} </movie>",
@@ -26,7 +26,7 @@ router.get('/', function(req, res, next) {
  }
  );
  });
- */
+
 
 
 module.exports = router;
